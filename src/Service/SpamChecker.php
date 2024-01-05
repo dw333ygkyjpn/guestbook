@@ -52,13 +52,16 @@ class SpamChecker
         $headers = $request->getHeaders();
         $body = $request->getContent();
 
-        if('discard' === ($headers['X-akismet-pro-tip'][0] ?? '')){
+        if('discard' === ($headers['x-akismet-pro-tip'][0] ?? '')){
             return 2;
         }
 
         if(isset($headers['x-akismet-debug-help'][0])){
-            throw new \RuntimeException("Error checking for spam: ${$body}.".PHP_EOL
-                ."Context: ${$headers['x-akismet-debug-help'][0]}");
+            throw new \RuntimeException(sprintf(
+                'Error checking for spam: %s. Context: %s',
+                $body,
+                $headers['x-akismet-debug-help'][0]
+            ));
         }
 
         return $body == 'true' ? 1 : 0;
