@@ -1,0 +1,19 @@
+#file: noinspection YAMLSchemaValidation
+
+#Entities
+Conference: Conferencia
+Conferences: Conferencias
+Comment: Comentario
+Comments: Comentarios
+#End Entities
+
+#Properties
+ID: ID
+City: Ciudad
+Year: Año
+Is International: Es Internacional
+#End Properties
+
+#Misc text
+Home: Home
+#End Misc
