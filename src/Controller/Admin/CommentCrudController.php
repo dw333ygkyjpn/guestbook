@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -52,7 +53,10 @@ class CommentCrudController extends AbstractCrudController
         }
 
         yield TextareaField::new('text')->onlyOnForms();
-        yield TextField::new('photoFilename')->onlyOnForms();
+        yield ImageField::new('photoFilename')
+            ->setUploadDir("/public/uploads/photos")
+            ->setLabel("Photo")
+            ->onlyOnForms();
     }
 
     public function configureFilters(Filters $filters): Filters
