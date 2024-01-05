@@ -40,7 +40,6 @@ class HomeController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Conferences', 'fas fa-map-marker-alt', Conference::class);
         yield MenuItem::linkToCrud('Comments', 'fas fa-comments', Comment::class);
         yield MenuItem::section('');
-        //TODO: implement authentication
-        //yield MenuItem::linkToLogout('Logout', 'fa fa-exit'),
+        yield MenuItem::linkToLogout('Logout', 'fa fa-exit');
     }
 }
