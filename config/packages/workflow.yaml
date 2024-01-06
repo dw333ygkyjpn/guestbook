@@ -1,0 +1,45 @@
+framework:
+    workflows:
+        comment_audit:
+            audit_trail:
+                enabled: true
+            type: state_machine
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                App\Entity\Comment
+            initial_marking: 'submitted'
+            places:
+                - !php/const App\Entity\Comment::STATE_SUBMITTED
+                - !php/const App\Entity\Comment::STATE_GOOD
+                - !php/const App\Entity\Comment::STATE_POTENTIAL_SPAM
+                - !php/const App\Entity\Comment::STATE_REJECTED
+                - !php/const App\Entity\Comment::STATE_PUBLISHED
+            transitions:
+                accept:
+                    from: 'submitted'
+                    to: 'good'
+                flag_spam:
+                    from: 'submitted'
+                    to: 'potential_spam'
+                reject_spam:
+                    from: 'submitted'
+                    to: 'rejected'
+                publish_good:
+                    from: 'good'
+                    to: 'published'
+                reject_good:
+                    from: 'good'
+                    to: 'rejected'
+                reject:
+                    from: 'potential_spam'
+                    to: 'rejected'
+                publish:
+                    from: 'potential_spam'
+                    to: 'published'
+
+
+
+
+

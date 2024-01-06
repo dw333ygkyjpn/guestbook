@@ -27,8 +27,26 @@ class ConferenceFixtures extends Fixture
         $comment1->setConference($santiago)
             ->setAuthor('Nicolas Silva')
             ->setEmail('ringsofsaturn@gmail.com')
+            ->setState('published')
             ->setText('Great!');
         $manager->persist($comment1);
+
+        $comment1 = new Comment();
+        $comment1->setConference($lima)
+            ->setAuthor('Nicolas Silva')
+            ->setEmail('ringsofsaturn@gmail.com')
+            ->setState('submitted')
+            ->setText('This comment is going to be published!');
+        $manager->persist($comment1);
+
+        $comment2 = new Comment();
+        $comment2->setConference($santiago)
+            ->setAuthor('Nicolas Silva')
+            ->setEmail('spamemail@gmail.com')
+            ->setState('spam')
+            ->setText('This is spam!');
+        $manager->persist($comment2);
+
         $manager->flush();
     }
 }

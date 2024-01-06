@@ -5,21 +5,22 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Conference;
 use App\Form\CommentType;
+use App\Message\CommentMessage;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
-use App\Service\SpamChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ConferenceController extends AbstractController
 {
     public function __construct(protected EntityManagerInterface $entityManager,
-                                protected SpamChecker $spamChecker,
+                                protected MessageBusInterface $messageBus,
                                 protected UrlGeneratorInterface $urlGenerator)
     {
     }
@@ -57,24 +58,19 @@ class ConferenceController extends AbstractController
                 'blog_charset' => $charset,
             ];
 
-            $spamScore = $this->spamChecker->getSpamScore($comment, $context);
-
-            if($spamScore == 2){
-                throw new \RuntimeException('Spam detected.');
-            }elseif ($spamScore == 1){
-                //TODO: Report and flag posible spam.
-            }
-
             $comment->setConference($conference);
+            $comment->setState('submitted');
+
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+
+            $this->messageBus->dispatch(new CommentMessage($comment->getId(), $context));
 
             if($photo = $form['photo']->getData()){
                 $filename = bin2hex(random_bytes(6)).'.'.$photo->guessExtension();
                 $photo->move($photoDir, $filename);
                 $comment->setPhotoFilename($filename);
             }
-
-            $this->entityManager->persist($comment);
-            $this->entityManager->flush();
 
             return $this->redirectToRoute('conference_show', ['slug' => $conference->getSlug()]);
         }

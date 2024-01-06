@@ -52,6 +52,8 @@ class CommentCrudController extends AbstractCrudController
             yield $createdAt->setFormTypeOption('disabled', true);
         }
 
+        yield TextField::new('state')->setFormTypeOption('disabled', true);
+
         yield TextareaField::new('text')->onlyOnForms();
         yield ImageField::new('photoFilename')
             ->setUploadDir("/public/uploads/photos")
