@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Review done{% endblock %}
+
+{% block body %}
+    <h2>Comment reviewed</h2>
+    <p>Review: {{ transition }}</p>
+    <p>Comment state: {{ comment.state }}</p>
+{% endblock %}
