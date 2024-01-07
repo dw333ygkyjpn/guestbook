@@ -2,8 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Repository\CommentRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ConferenceControllerTest extends WebTestCase
@@ -55,10 +53,6 @@ class ConferenceControllerTest extends WebTestCase
         ]);
 
         $this->assertResponseRedirects();
-
-        $comment = self::getContainer()->get(CommentRepository::class)->findOneByEmail($email);
-        $comment->setState('published');
-        self::getContainer()->get(EntityManagerInterface::class)->flush();
 
         $client->followRedirect();
         $this->assertSelectorExists('div:contains("There are 3 comments")');

@@ -32,7 +32,7 @@ class ConferenceController extends AbstractController
             [
                 'conferences' => $conferenceRepository->findAll(),
             ]
-        );
+        )->setSharedMaxAge(3600);
     }
 
     #[Route('/conference/{slug}', name: 'conference_show', methods: ["GET", "POST"])]

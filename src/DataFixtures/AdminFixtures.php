@@ -18,6 +18,7 @@ class AdminFixtures extends Fixture
     {
         $admin = new Admin();
         $admin->setUsername('admin')
+            ->setEmail('admin@guestbook')
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword($this->hasherFactory
                 ->getPasswordHasher(Admin::class)

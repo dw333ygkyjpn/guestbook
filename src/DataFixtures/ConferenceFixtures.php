@@ -36,14 +36,14 @@ class ConferenceFixtures extends Fixture
             ->setAuthor('Nicolas Silva')
             ->setEmail('ringsofsaturn@gmail.com')
             ->setState('submitted')
-            ->setText('This comment is going to be published!');
+            ->setText('This comment is not spam!');
         $manager->persist($comment1);
 
         $comment2 = new Comment();
         $comment2->setConference($santiago)
-            ->setAuthor('Nicolas Silva')
-            ->setEmail('spamemail@gmail.com')
-            ->setState('spam')
+            ->setAuthor('akismet‑guaranteed‑spam')
+            ->setEmail('akismet-guaranteed-spam@example.com')
+            ->setState('submitted')
             ->setText('This is spam!');
         $manager->persist($comment2);
 
